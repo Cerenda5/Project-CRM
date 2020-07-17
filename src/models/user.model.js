@@ -1,9 +1,11 @@
 module.exports = mongoose => {
   var userSchema = mongoose.Schema(
       {
-        userName: String,
+        name: String,
+        lastName: String,
         email: String,
-        password: String
+        phoneNumber: String,
+        tags: String
       },
       { timestamps: true }
   );

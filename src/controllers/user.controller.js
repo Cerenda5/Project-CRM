@@ -4,16 +4,18 @@ const User = db.users;
 // Create and Save a new User
 exports.create = (req, res) => {
 // Validate request
-if (!req.body.userName) {
+if (!req.body.name) {
   res.status(400).send({ message: "Content can not be empty!" });
   return;
 }
 
 // Create a User
 const user = new User({
-  userName: req.body.userName,
+  name: req.body.name,
+  lastName: req.body.lastName,
   email: req.body.email,
-  password: req.body.password,
+  phoneNumber: req.body.phoneNumber,
+  tags: req.body.tags
 });
 
 // Save User in the database
@@ -31,8 +33,8 @@ const user = new User({
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
-  const userName = req.query.userName;
-  var condition = userName ? { userName: { $regex: new RegExp(userName), $options: "i" } } : {};
+  const name = req.query.name;
+  var condition = name ? { name: { $regex: new RegExp(name), $options: "i" } } : {};
 
   User.find(condition)
     .then(data => {
