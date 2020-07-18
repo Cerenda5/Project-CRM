@@ -11,14 +11,16 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - './:/home/node/app'
+      - './api:/home/node/app'
     networks:
       - API
+
   mongo:
     container_name: mongo
     image: mongo:latest
     networks:
       - API
+
 networks: 
   API: 
     driver: bridge

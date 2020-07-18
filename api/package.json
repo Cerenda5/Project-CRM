@@ -22,7 +22,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.9.24",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "mocha": "^8.0.1",

@@ -1,12 +1,13 @@
-// Imports
+require('dotenv').config(); //Variable environnement
 const express = require ('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors'); //cors fournit un middleware Express pour activer CORS avec diverses options.
+const dbconfig = require('./config/db.config')
+const userRoute = require('./src/routes/user.routes')
 
-
-// Instantiate server
 const app = express();
-var corsOptions = {
+let corsOptions = {
   origin: "http://localhost:8081"
 };
 
@@ -15,25 +16,13 @@ app.use(cors(corsOptions)); // parse requests of content-type - application/json
 app.use(bodyParser.json()); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configure routes
-app.get("/", (req, res) => { // Récupére info du server
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).send('<h1>Hello guys !</h1>')
-});
-
-// Launch server
-require("./src/api/routes/user.routes")(app);
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
-// Connexion between the server and the mongoDb database
-const db = require("./src/api/models");
-const { url } = require('./src/api/models');
-db.mongoose
-  .connect(db.url, {
+console.log(dbconfig.db());
+mongoose.Promise = global.Promise;
+mongoose
+  .connect(dbconfig.db(), {
+    useUnifiedTopology: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useCreateIndex: true
   })
   .then(() => {
     console.log("Connected to the database!");
@@ -42,4 +31,11 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
-  console.log(url.db);
+
+userRoute(app);
+
+app.listen(process.env.NODE_ENV === "development" ? process.env.DEV_SRV_PORT : process.env.PORT, () =>{
+  if(process.env.NODE_ENV === "development"){
+    console.log('App Listening on Host: ' + process.env.SRV_HOST + ' / Port server: ' + process.env.DEV_SRV_PORT);
+  }
+})

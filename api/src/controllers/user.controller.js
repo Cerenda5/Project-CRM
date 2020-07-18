@@ -1,5 +1,7 @@
-const db = require("../models");
-const User = db.users;
+const mongoose = require('mongoose');
+const userModel = require('../models/user.model')
+const usermodel = mongoose.model("User");
+
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -46,7 +48,7 @@ const user = new User({
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
   const firstName = req.query.firstName;
-  var condition = firstName ? { firstName: { $regex: new RegExp(firstName), $options: "i" } } : {};
+  let condition = firstName ? { firstName: { $regex: new RegExp(firstName), $options: "i" } } : {};
 
   User.find(condition)
     .then(data => {
