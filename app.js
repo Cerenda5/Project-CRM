@@ -22,14 +22,14 @@ app.get("/", (req, res) => { // Récupére info du server
 });
 
 // Launch server
-require("./src/routes/user.routes")(app);
+require("./src/api/routes/user.routes")(app);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
 // Connexion between the server and the mongoDb database
-const db = require("./src/models");
+const db = require("./src/api/models");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
