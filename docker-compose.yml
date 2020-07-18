@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.6'
 services:
   node:
     container_name: node-testing
@@ -12,8 +12,15 @@ services:
       - '3000:3000'
     volumes:
       - './:/home/node/app'
-    links:
-      - 'mongo'
+    networks:
+      - API
   mongo:
     container_name: mongo
-    image: mongo
+    image: mongo:latest
+    networks:
+      - API
+networks: 
+  API: 
+    driver: bridge
+    
+    

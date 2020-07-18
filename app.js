@@ -27,9 +27,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
 // Connexion between the server and the mongoDb database
 const db = require("./src/api/models");
+const { url } = require('./src/api/models');
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -42,3 +42,4 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
+  console.log(url.db);
